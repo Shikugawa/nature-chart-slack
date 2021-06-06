@@ -15,9 +15,11 @@ import (
 )
 
 func main() {
-	checkInterval := 30                        // minutes
+	checkInterval := 10                        // minutes
 	bufferEntrySize := 60 * 24 / checkInterval // 24h
 	postInterval := 1 * time.Hour
+	dstChannel := "#nature-sensors"
+	dstPath := "output.png"
 
 	c := nature.NewClient(os.Getenv("NATURE_TOKEN"))
 	store, err := store.NewDataStore(int64(bufferEntrySize), "./mem")
@@ -55,8 +57,6 @@ func main() {
 					return records[i].Timestamp < records[j].Timestamp
 				})
 
-				dstPath := "output.png"
-
 				times := make([]int64, len(records))
 				points := make([]float64, len(records))
 
@@ -66,10 +66,11 @@ func main() {
 				}
 
 				if err := chart_builder.BuildTempChart(times, points, dstPath); err != nil {
+					fmt.Println(err)
 					continue
 				}
 
-				s.Post(dstPath, "#bot-test")
+				s.Post(dstPath, dstChannel)
 			}
 		}
 	}()

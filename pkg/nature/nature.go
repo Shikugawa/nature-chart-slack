@@ -60,7 +60,7 @@ func (c *Client) Request() ([]Response, error) {
 
 	defer res.Body.Close()
 
-	if res.StatusCode > http.StatusUnauthorized {
+	if res.StatusCode >= http.StatusUnauthorized {
 		return nil, fmt.Errorf("got status: %v", res.StatusCode)
 	}
 

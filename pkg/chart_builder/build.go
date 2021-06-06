@@ -15,7 +15,7 @@ func BuildTempChart(timestamps []int64, temps []float64, dstPath string) error {
 	}
 	graph := chart.Chart{
 		XAxis: chart.XAxis{
-			ValueFormatter: chart.TimeHourValueFormatter,
+			ValueFormatter: chart.TimeMinuteValueFormatter,
 		},
 		YAxis: chart.YAxis{
 			Name: "Tempature (℃)",
